@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🎓 考研全程规划报告 — {{STUDENT_NAME}}</title>
+<style>
+  /* ====== CSS Reset & Variables ====== */
+  :root {
+    --primary: #4f46e5;
+    --primary-light: #e0e7ff;
+    --danger: #ef4444;
+    --danger-light: #fef2f2;
+    --warning: #f59e0b;
+    --warning-light: #fffbeb;
+    --success: #10b981;
+    --success-light: #ecfdf5;
+    --bg: #f8fafc;
+    --card: #ffffff;
+    --text: #1e293b;
+    --text-secondary: #64748b;
+    --border: #e2e8f0;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+    --shadow-lg: 0 10px 25px rgba(0,0,0,.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ====== Print Styles ====== */
+  @media print {
+    body { background: white; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .no-print, .tab-nav, .checkin-section, .export-bar { display: none !important; }
+    .tab-panel { display: block !important; break-inside: avoid; }
+    .container { max-width: 100%; margin: 0; }
+    .header { background: var(--primary) !important; }
+  }
+
+  /* ====== Header ====== */
+  .header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #4f46e5 50%, #7c3aed 100%);
+    color: white;
+    padding: 32px 24px 24px;
+    text-align: center;
+  }
+  .header h1 { font-size: clamp(1.5rem, 4vw, 2rem); margin-bottom: 4px; }
+  .header .subtitle { opacity: .85; font-size: .95rem; }
+  .countdown-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .countdown-item {
+    background: rgba(255,255,255,.15);
+    backdrop-filter: blur(4px);
+    border-radius: var(--radius);
+    padding: 12px 20px;
+    min-width: 80px;
+  }
+  .countdown-item .num { font-size: 2rem; font-weight: 700; line-height: 1; }
+  .countdown-item .label { font-size: .8rem; opacity: .8; margin-top: 4px; }
+
+  /* ====== Container ====== */
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+
+  /* ====== Export Bar ====== */
+  .export-bar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 12px 0;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    cursor: pointer;
+    font-size: .9rem;
+    font-weight: 500;
+    transition: all .2s;
+    text-decoration: none;
+    color: var(--text);
+  }
+  .btn:hover { background: #f1f5f9; transform: translateY(-1px); }
+  .btn-primary { background: var(--primary); color: white; border-color: var(--primary); }
+  .btn-primary:hover { background: #4338ca; }
+
+  /* ====== Tab Navigation ====== */
+  .tab-nav {
+    display: flex;
+    gap: 4px;
+    background: var(--card);
+    border-radius: var(--radius);
+    padding: 6px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .tab-btn {
+    flex: 1;
+    min-width: 80px;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: .9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    transition: all .2s;
+    white-space: nowrap;
+  }
+  .tab-btn:hover { background: #f1f5f9; }
+  .tab-btn.active { background: var(--primary); color: white; }
+
+  /* ====== Tab Panels ====== */
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ====== Cards ====== */
+  .card {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .card h2 { font-size: 1.25rem; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+  .card h3 { font-size: 1.05rem; margin: 16px 0 10px; color: var(--primary); }
+
+  /* ====== Grid ====== */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  @media (max-width: 768px) {
+    .grid-2, .grid-4 { grid-template-columns: 1fr; }
+  }
+
+  /* ====== Radar Chart ====== */
+  .radar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+  .radar-svg { max-width: 100%; height: auto; }
+
+  /* ====== Tables ====== */
+  table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { background: #f8fafc; font-weight: 600; color: var(--text-secondary); font-size: .8rem; text-transform: uppercase; letter-spacing: .5px; }
+  tr:hover td { background: #fafbfc; }
+  .table-wrap { overflow-x: auto; }
+
+  /* ====== Status Badges ====== */
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: .8rem; font-weight: 600; }
+  .badge-danger { background: var(--danger-light); color: var(--danger); }
+  .badge-warning { background: var(--warning-light); color: #b45309; }
+  .badge-success { background: var(--success-light); color: #059669; }
+
+  /* ====== Progress Bars ====== */
+  .progress-row { margin-bottom: 16px; }
+  .progress-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px; font-size: .9rem; font-weight: 500; }
+  .progress-tag { font-size: .75rem; margin-left: 4px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+  .progress-tag.plus { color: #4f46e5; background: #e0e7ff; }
+  .progress-bar { height: 14px; background: #e2e8f0; border-radius: 10px; overflow: hidden; position: relative; }
+  .progress-fill { position: absolute; left:0; top:0; height: 100%; border-radius: 10px; transition: width .5s ease; }
+  .progress-fill.danger { background: var(--danger); }
+  .progress-fill.warning { background: var(--warning); }
+  .progress-fill.success { background: var(--success); }
+  .progress-fill.primary { background: var(--primary); }
+  .progress-fill-stripe { position: absolute; left:0; top:0; height: 100%; border-radius: 0; transition: left .3s ease, width .3s ease; background: repeating-linear-gradient(-45deg, #6366f1, #6366f1 3px, #818cf8 3px, #818cf8 6px); opacity: .85; }
+  .progress-eta { font-size: .75rem; color: var(--text-secondary); margin-top: 2px; }
+
+  /* ====== Color Labels ====== */
+  .risk-high { color: var(--danger); font-weight: 700; }
+  .risk-mid { color: var(--warning); font-weight: 700; }
+  .risk-low { color: var(--success); font-weight: 700; }
+
+  /* ====== Collapsible ====== */
+  details { margin: 10px 0; }
+  details summary {
+    cursor: pointer;
+    padding: 10px 16px;
+    background: #f8fafc;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: .95rem;
+    user-select: none;
+    list-style: none;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::before { content: "▸ "; color: var(--primary); display: inline-block; transition: transform .2s; }
+  details[open] summary::before { transform: rotate(90deg); }
+  details .details-content { padding: 12px 16px; border-left: 3px solid var(--primary-light); margin-left: 8px; }
+
+  /* ====== Check-in Section ====== */
+  .checkin-section .check-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+  .check-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--primary); cursor: pointer; }
+  .check-item label { cursor: pointer; flex: 1; font-size: .95rem; }
+  .check-item input:checked + label { text-decoration: line-through; color: var(--text-secondary); }
+
+  /* ====== Timeline ====== */
+  .timeline { border-left: 3px solid var(--primary); padding-left: 24px; margin-left: 8px; }
+  .timeline-item { position: relative; margin-bottom: 20px; }
+  .timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -33px;
+    top: 4px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 3px solid var(--primary-light);
+  }
+  .timeline-item .time { font-size: .85rem; color: var(--text-secondary); font-weight: 600; }
+
+  /* ====== Footer ====== */
+  .footer {
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: .85rem;
+    padding: 30px;
+  }
+  .footer a { color: var(--primary); }
+</style>
+</head>
+<body>
+
+<!-- ====== HEADER ====== -->
+<div class="header">
+  <h1>🎓 考研全程规划报告</h1>
+  <p class="subtitle">{{STUDENT_NAME}} · {{TARGET_SCHOOL}} {{TARGET_MAJOR}} · 生成于 {{GEN_DATE}}</p>
+  <div class="countdown-row" id="countdown">
+    <div class="countdown-item"><div class="num" id="cd-days">--</div><div class="label">距初试</div></div>
+    <div class="countdown-item"><div class="num" id="cd-weeks">--</div><div class="label">周</div></div>
+    <div class="countdown-item"><div class="num">{{TOTAL_SCORE}}</div><div class="label">目标总分</div></div>
+    <div class="countdown-item"><div class="num">{{PROBABILITY}}%</div><div class="label">评估上岸率</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ====== EXPORT BAR ====== -->
+<div class="export-bar no-print">
+  <button class="btn" onclick="window.print()">🖨️ 打印报告</button>
+  <button class="btn" id="btn-export-word">📥 导出 Word</button>
+  <button class="btn" id="btn-export-excel">📊 导出 Excel</button>
+</div>
+
+<!-- ====== TAB NAVIGATION ====== -->
+<nav class="tab-nav no-print" id="tabNav">
+  <button class="tab-btn active" data-tab="tab-overview">📋 总览</button>
+  <button class="tab-btn" data-tab="tab-school">🏫 择校分析</button>
+  <button class="tab-btn" data-tab="tab-plan">📅 学习计划</button>
+  <button class="tab-btn" data-tab="tab-daily">⏰ 每日作息</button>
+  <button class="tab-btn" data-tab="tab-progress">📈 进度跟踪</button>
+  <button class="tab-btn" data-tab="tab-mock">🎯 模考评估</button>
+</nav>
+
+<!-- ====== TAB 1: OVERVIEW ====== -->
+<div class="tab-panel active" id="tab-overview">
+<div class="grid-2">
+  <div class="card">
+    <h2>👤 考生画像</h2>
+    <table>
+      {{OVERVIEW_TABLE}}
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>📊 上岸概率雷达图</h2>
+    <div class="radar-container">
+      <svg class="radar-svg" viewBox="-40 -15 420 380" width="100%" height="auto" style="max-width:380px">
+        {{RADAR_SVG}}
+      </svg>
+    </div>
+    <p style="text-align:center;font-size:.85rem;color:var(--text-secondary);margin-top:8px;">
+      加权总分：<strong>{{WEIGHTED_SCORE}} / 5.0</strong> · {{ASSESSMENT_LEVEL}}
+    </p>
+  </div>
+</div>
+
+<div class="card">
+  <h2>🔑 关键结论</h2>
+  <div class="grid-2">
+    <div>
+      <h3>✅ 加分项</h3>
+      <ul>{{STRENGTHS}}</ul>
+    </div>
+    <div>
+      <h3>⚠️ 需要注意</h3>
+      <ul>{{WEAKNESSES}}</ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>📈 各科进度概览</h2>
+  {{PROGRESS_BARS}}
+</div>
+
+<div class="card checkin-section">
+  <h2>☑️ 每日保底打卡</h2>
+  <p style="color:var(--text-secondary);margin-bottom:4px;">勾选自动保存，刷新不丢。每日凌晨自动重置。</p>
+  <p style="font-size:.8rem;color:var(--text-secondary);margin-bottom:12px;" id="yesterday-info"></p>
+  <div id="checkin-list">
+    {{CHECKIN_ITEMS}}
+  </div>
+  <div style="margin-top:14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+    <button class="btn btn-primary" id="btn-reset-checkin">🔄 重新打卡</button>
+    <span style="font-size:.9rem;">
+      今日：<strong id="checkin-count" style="font-size:1.1rem;">0</strong>/<span id="checkin-total">5</span>
+    </span>
+    <span style="font-size:.85rem;color:var(--text-secondary);" id="checkin-streak"></span>
+  </div>
+</div>
+</div>
+
+<!-- ====== TAB 2: SCHOOL SELECTION ====== -->
+<div class="tab-panel" id="tab-school">
+  <div class="card">
+    <h2>🏫 三档院校推荐</h2>
+    {{SCHOOL_ANALYSIS}}
+  </div>
+</div>
+
+<!-- ====== TAB 3: STUDY PLAN ====== -->
+<div class="tab-panel" id="tab-plan">
+  <div class="card">
+    <h2>📅 三阶段学习计划</h2>
+    {{STUDY_PLAN}}
+  </div>
+  <div class="card">
+    <h2>📆 月度规划时间轴</h2>
+    <div class="timeline">{{TIMELINE}}</div>
+  </div>
+</div>
+
+<!-- ====== TAB 4: DAILY SCHEDULE ====== -->
+<div class="tab-panel" id="tab-daily">
+  <div class="card">
+    <h2>⏰ 每日作息表</h2>
+    {{DAILY_SCHEDULE_TABLE}}
+  </div>
+  <div class="card">
+    <h2>🛡️ 每日保底任务</h2>
+    <p style="color:var(--text-secondary);margin-bottom:12px;">不管状态多差，做完以下 4 项至少保持手感不退化：</p>
+    <div class="table-wrap">{{MINIMUM_TASKS}}</div>
+  </div>
+</div>
+
+<!-- ====== TAB 5: PROGRESS TRACKING ====== -->
+<div class="tab-panel" id="tab-progress">
+  <div class="card">
+    <h2>📊 6 周冲刺进度表</h2>
+    <div class="table-wrap">{{WEEKLY_MILESTONES}}</div>
+  </div>
+</div>
+
+<!-- ====== TAB 6: MOCK EXAM ADJUSTMENT ====== -->
+<div class="tab-panel" id="tab-mock">
+  {{MOCK_EXAM_CONTENT}}
+</div>
+
+</div><!-- .container -->
+
+<div class="footer">
+  <p>📋 本报告由 <strong>考研规划指导 (kaoyan-guide)</strong> 技能自动生成 · 数据仅供参考，请以官方为准</p>
+  <p>生成时间：{{GEN_DATETIME}} · <a href="#" onclick="window.print()">打印版本</a></p>
+</div>
+
+<!-- ====== SCRIPTS ====== -->
+<script>
+// ====== Tab Switching ======
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ====== Countdown Timer ======
+(function() {
+  const examDate = new Date('{{EXAM_DATE}}');
+  function update() {
+    const now = new Date();
+    const diff = examDate - now;
+    if (diff <= 0) { document.getElementById('cd-days').textContent = '0'; document.getElementById('cd-weeks').textContent = '0'; return; }
+    const days = Math.floor(diff / 86400000);
+    const weeks = Math.floor(days / 7);
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-weeks').textContent = weeks;
+  }
+  update();
+  setInterval(update, 60000);
+})();
+
+// ====== Daily Check-in + Progress Linkage ======
+(function() {
+  var today = new Date().toISOString().slice(0,10);
+  var storageKey = 'ky-checkin-' + today;
+
+  // 收集所有打卡项（用传统 for 循环兼容所有浏览器）
+  var checkItems = document.querySelectorAll('#checkin-list input[type="checkbox"]');
+  var ids = [];
+  for (var i = 0; i < checkItems.length; i++) {
+    ids.push(checkItems[i].id);
+  }
+
+  if (ids.length === 0) return;
+
+  var totalEl = document.getElementById('checkin-total');
+  if (totalEl) totalEl.textContent = String(ids.length);
+
+  // 加载今日已保存的打卡状态
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(storageKey) || '{}'); } catch(e) {}
+
+  // 加载累计进度
+  var progressKey = 'ky-progress-accumulated';
+  var accumulated = {};
+  try { accumulated = JSON.parse(localStorage.getItem(progressKey) || '{}'); } catch(e) {}
+
+  // 核心函数：一次处理所有更新（保存+计数+进度条）
+  function handleChange() {
+    // 1. 保存打卡状态
+    var data = {};
+    var subjectDone = {};
+    for (var j = 0; j < ids.length; j++) {
+      var el2 = document.getElementById(ids[j]);
+      if (!el2) continue;
+      data[ids[j]] = el2.checked;
+      if (el2.checked) {
+        var s = el2.getAttribute('data-subject') || '';
+        var inc = parseFloat(el2.getAttribute('data-increment')) || 1;
+        if (s) subjectDone[s] = (subjectDone[s] || 0) + inc;
+      }
+    }
+    localStorage.setItem(storageKey, JSON.stringify(data));
+
+    // 2. 更新累计进度
+    var keys = Object.keys(subjectDone);
+    for (var k = 0; k < keys.length; k++) {
+      var key = keys[k];
+      accumulated[key] = Math.max(accumulated[key] || 0, subjectDone[key]);
+    }
+    try { localStorage.setItem(progressKey, JSON.stringify(accumulated)); } catch(e) {}
+
+    // 3. 更新计数
+    var count = 0;
+    for (var c = 0; c < ids.length; c++) {
+      if (document.getElementById(ids[c]) && document.getElementById(ids[c]).checked) count++;
+    }
+    var countEl = document.getElementById('checkin-count');
+    if (countEl) countEl.textContent = String(count);
+
+    // 4. 更新连续天数
+    var streak = 0;
+    var d2 = new Date();
+    for (var dd = 0; dd < 30; dd++) {
+      var dkey = 'ky-checkin-' + d2.toISOString().slice(0,10);
+      var ddata = {};
+      try { ddata = JSON.parse(localStorage.getItem(dkey) || '{}'); } catch(e) {}
+      var done = 0;
+      for (var di = 0; di < ids.length; di++) { if (ddata[ids[di]]) done++; }
+      if (done >= Math.min(3, ids.length)) streak++;
+      else if (dd > 0) break;
+      d2.setDate(d2.getDate() - 1);
+    }
+    var streakEl = document.getElementById('checkin-streak');
+    if (streakEl) streakEl.textContent = streak > 0 ? '🔥 连续 ' + streak + ' 天' : '';
+
+    // 5. 更新进度条（双层：基础 + 打卡增量 + ETA）
+    var progressRows = document.querySelectorAll('.progress-row');
+    for (var pr = 0; pr < progressRows.length; pr++) {
+      var row = progressRows[pr];
+      var rowSubj = row.getAttribute('data-subject') || '';
+      var pctEl = row.querySelector('.progress-pct');
+      var fillEl = row.querySelector('.progress-fill');
+      if (!pctEl || !fillEl) continue;
+
+      // 获取基础百分比（首次读取时保存到 data-base）
+      var basePct = parseFloat(pctEl.getAttribute('data-base'));
+      if (isNaN(basePct)) {
+        basePct = parseFloat(pctEl.textContent) || 0;
+        pctEl.setAttribute('data-base', String(basePct));
+      }
+
+      // 查找匹配的累计打卡增量
+      var extra = 0;
+      var aKeys = Object.keys(accumulated);
+      for (var ak = 0; ak < aKeys.length; ak++) {
+        if (rowSubj.indexOf(aKeys[ak]) >= 0 || aKeys[ak].indexOf(rowSubj) >= 0) {
+          extra = Math.max(extra, accumulated[aKeys[ak]]);
+        }
+      }
+      var totalPct = Math.min(100, basePct + extra);
+
+      // 基础层（底色）
+      fillEl.style.width = totalPct + '%';
+
+      // 条纹叠加层（打卡增量，从基础末端向右延伸）
+      var stripeEl = row.querySelector('.progress-fill-stripe');
+      if (!stripeEl) {
+        stripeEl = document.createElement('div');
+        stripeEl.className = 'progress-fill-stripe';
+        row.querySelector('.progress-bar').appendChild(stripeEl);
+      }
+      if (extra > 0 && basePct < 100) {
+        stripeEl.style.left = basePct + '%';
+        stripeEl.style.width = Math.min(extra, 100 - basePct) + '%';
+        stripeEl.style.display = '';
+      } else {
+        stripeEl.style.width = '0%';
+        stripeEl.style.display = 'none';
+      }
+
+      // 百分比文本
+      pctEl.textContent = Math.round(totalPct) + '%';
+
+      // +N% 标签
+      var labelSpan = row.querySelector('.progress-label span');
+      if (labelSpan) {
+        var existingTag = labelSpan.querySelector('.progress-tag');
+        if (extra > 0) {
+          if (!existingTag) {
+            existingTag = document.createElement('span');
+            existingTag.className = 'progress-tag plus';
+            labelSpan.appendChild(existingTag);
+          }
+          existingTag.textContent = '+' + Math.round(extra) + '%打卡';
+          existingTag.style.display = '';
+        } else if (existingTag) {
+          existingTag.style.display = 'none';
+        }
+      }
+
+      // 预估完成日期
+      var etaEl = row.querySelector('.progress-eta');
+      if (!etaEl) {
+        etaEl = document.createElement('div');
+        etaEl.className = 'progress-eta';
+        row.appendChild(etaEl);
+      }
+      if (totalPct >= 100) {
+        etaEl.textContent = '已完成';
+      } else {
+        var dailyPace = 1.5; // 每天打卡约 +1.5%
+        if (extra > 0) dailyPace = extra; // 用实际增量估算
+        var remaining = (100 - totalPct) / Math.max(0.5, dailyPace);
+        var eta = new Date();
+        eta.setDate(eta.getDate() + Math.ceil(remaining));
+        etaEl.textContent = '预计 ' + (eta.getMonth()+1) + '月' + eta.getDate() + '日 完成';
+      }
+    }
+  }
+
+  // 绑定事件：每个 checkbox 变化时触发
+  for (var b = 0; b < ids.length; b++) {
+    var el = document.getElementById(ids[b]);
+    if (!el) continue;
+    if (saved[ids[b]]) el.checked = true;
+    el.onchange = handleChange;
+  }
+
+  // 重置按钮
+  var resetBtn = document.getElementById('btn-reset-checkin');
+  if (resetBtn) {
+    resetBtn.onclick = function() {
+      for (var r = 0; r < ids.length; r++) {
+        var el3 = document.getElementById(ids[r]);
+        if (el3) el3.checked = false;
+      }
+      handleChange();
+    };
+  }
+
+  // 昨日回顾
+  var yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  var yKey = 'ky-checkin-' + yesterday.toISOString().slice(0,10);
+  var yData = {};
+  try { yData = JSON.parse(localStorage.getItem(yKey) || '{}'); } catch(e) {}
+  var yDone = 0;
+  for (var yd = 0; yd < ids.length; yd++) { if (yData[ids[yd]]) yDone++; }
+  var yInfo = document.getElementById('yesterday-info');
+  if (yInfo && yDone > 0) {
+    yInfo.textContent = '昨日完成：' + yDone + '/' + ids.length + ' 项';
+  }
+
+  // 新的一天：重置 checkboxes + 累计进度
+  var lastReset = localStorage.getItem('ky-last-reset-date') || '';
+  if (lastReset !== today) {
+    accumulated = {};
+    localStorage.setItem(progressKey, '{}');
+    localStorage.setItem('ky-last-reset-date', today);
+  }
+
+  // 初始化显示
+  handleChange();
+})();
+
+// ====== Export Word (打印优化版线性报告) ======
+document.getElementById('btn-export-word').addEventListener('click', function() {
+  var w = window.open('', '_blank', 'width=900,height=700');
+  // 从当前页面提取所有 Tab 内容，构建线性报告
+  var title = document.querySelector('.header h1') ? document.querySelector('.header h1').textContent : '考研规划报告';
+  var subtitle = document.querySelector('.header .subtitle') ? document.querySelector('.header .subtitle').textContent : '';
+  var studentName = '{{STUDENT_NAME}}';
+  var genDate = '{{GEN_DATE}}';
+
+  // 收集所有 Tab 面板内容
+  var sections = '';
+  var tabs = ['tab-overview','tab-school','tab-plan','tab-daily','tab-progress','tab-mock'];
+  var tabTitles = ['综合概览','择校分析','学习计划','每日作息','进度跟踪','模考评估'];
+  for (var t = 0; t < tabs.length; t++) {
+    var panel = document.getElementById(tabs[t]);
+    if (!panel) continue;
+    var clone = panel.cloneNode(true);
+    // 移除交互元素
+    var toRemove = clone.querySelectorAll('.checkin-section, .export-bar, .tab-nav, .btn, button, input, .no-print');
+    for (var r = 0; r < toRemove.length; r++) { toRemove[r].parentNode.removeChild(toRemove[r]); }
+    sections += '<section class="chapter"><h1 style="page-break-before:always;">' + (t+1) + '. ' + tabTitles[t] + '</h1>' + clone.innerHTML + '</section>';
+  }
+
+  var doc = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><title>' + title + ' — 打印版</title>' +
+  '<style>' +
+  '@page { size: A4; margin: 2cm 2.2cm; @bottom-center { content: "— " counter(page) " —"; font-size:9pt;color:#999; } }' +
+  '@media print { body { -webkit-print-color-adjust:exact; print-color-adjust:exact; } .page-break { page-break-before:always; } }' +
+  '* { margin:0; padding:0; box-sizing:border-box; }' +
+  'body { font-family:"PingFang SC","Microsoft YaHei",sans-serif; font-size:12pt; line-height:1.8; color:#1e293b; max-width:700px; margin:0 auto; padding:20px; }' +
+  '.cover { text-align:center; padding:120px 0 80px; page-break-after:always; }' +
+  '.cover h1 { font-size:28pt; color:#4f46e5; margin-bottom:16px; }' +
+  '.cover .meta { font-size:12pt; color:#64748b; margin:8px 0; }' +
+  '.cover .divider { width:60px; height:3px; background:#4f46e5; margin:30px auto; }' +
+  '.chapter { margin-bottom:30px; }' +
+  '.chapter h1 { font-size:18pt; color:#4f46e5; border-bottom:2px solid #e2e8f0; padding-bottom:8px; margin-bottom:20px; }' +
+  'h2 { font-size:14pt; color:#334155; margin:20px 0 10px; }' +
+  'h3 { font-size:12pt; color:#475569; margin:14px 0 8px; }' +
+  'table { width:100%; border-collapse:collapse; margin:12px 0; font-size:10pt; }' +
+  'th { background:#4f46e5; color:white; padding:8px 10px; text-align:left; font-weight:600; }' +
+  'td { padding:8px 10px; border-bottom:1px solid #e2e8f0; }' +
+  'tr:nth-child(even) td { background:#f8fafc; }' +
+  'ul, ol { margin:8px 0 8px 20px; } li { margin:4px 0; }' +
+  '.card { background:white; border:1px solid #e2e8f0; border-radius:8px; padding:20px; margin-bottom:16px; }' +
+  '.badge-danger { color:#ef4444; font-weight:700; } .badge-warning { color:#f59e0b; font-weight:700; } .badge-success { color:#10b981; font-weight:700; }' +
+  '.risk-high { color:#ef4444; font-weight:700; }' +
+  '.radar-container { text-align:center; } .radar-svg { max-width:280px; }' +
+  '.progress-row { margin:8px 0; } .progress-bar { height:8px; background:#e2e8f0; border-radius:4px; } .progress-fill { height:100%; border-radius:4px; }' +
+  '.timeline { border-left:3px solid #4f46e5; padding-left:20px; }' +
+  '.timeline-item { margin-bottom:14px; } .timeline-item .time { color:#64748b; font-size:10pt; }' +
+  'details summary { font-weight:600; cursor:pointer; padding:6px 0; }' +
+  '</style></head><body>' +
+  '<div class="cover"><h1>' + title + '</h1><div class="divider"></div>' +
+  '<p class="meta">' + studentName + '</p><p class="meta">' + subtitle + '</p><p class="meta">生成日期：' + genDate + '</p></div>' +
+  sections +
+  '<p style="text-align:center;color:#94a3b8;font-size:9pt;margin-top:60px;page-break-before:always;">— 报告由 考研规划指导 (kaoyan-guide) 自动生成 —</p>' +
+  '</body></html>';
+  w.document.write(doc);
+  w.document.close();
+  setTimeout(function() { w.print(); }, 500);
+});
+
+// ====== Export Excel (原生 .xls 格式，Excel 可直接打开) ======
+document.getElementById('btn-export-excel').addEventListener('click', function() {
+  var xlsxPath = '{{XLSX_PATH}}';
+  // 如果预生成 xlsx 存在且有效，直接下载
+  if (xlsxPath && xlsxPath.length > 3) {
+    var a = document.createElement('a');
+    a.href = xlsxPath;
+    a.download = xlsxPath.split('/').pop() || '考研计划表.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    // 2 秒后如果没反应（文件不存在），回退到前端生成
+    var fallback = setTimeout(function() {
+      doExcelExport();
+    }, 2000);
+    a.addEventListener('error', function() {
+      clearTimeout(fallback);
+      doExcelExport();
+    });
+    return;
+  }
+  doExcelExport();
+
+  function doExcelExport() {
+    // 生成 Excel 可直接打开的 HTML 格式（.xls）
+    // Excel 原生支持打开 HTML 表格，可保留表头加粗、背景色、多表结构
+    var studentName = '{{STUDENT_NAME}}';
+    var genDate = '{{GEN_DATE}}';
+
+    // === 收集所有 Tab 面板中的表格 ===
+    var sheets = [
+      {title: '综合概览', panel: 'tab-overview'},
+      {title: '择校分析', panel: 'tab-school'},
+      {title: '学习计划', panel: 'tab-plan'},
+      {title: '每日作息', panel: 'tab-daily'},
+      {title: '进度跟踪', panel: 'tab-progress'},
+      {title: '模考评估', panel: 'tab-mock'}
+    ];
+
+    var excelHtml = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">\n';
+    excelHtml += '<head><meta charset="UTF-8">\n';
+    excelHtml += '<!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets>\n';
+
+    for (var si = 0; si < sheets.length; si++) {
+      excelHtml += '<x:ExcelWorksheet><x:Name>' + sheets[si].title + '</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>\n';
+    }
+    excelHtml += '</x:ExcelWorksheets></xml><![endif]-->\n';
+
+    excelHtml += '<style>\n';
+    excelHtml += '  table { border-collapse: collapse; }\n';
+    excelHtml += '  td, th { border: 1px solid #000000; padding: 6px 10px; font-size: 11pt; }\n';
+    excelHtml += '  th { background: #4f46e5; color: #ffffff; font-weight: bold; text-align: center; }\n';
+    excelHtml += '  .sheet-title { font-size: 14pt; font-weight: bold; color: #4f46e5; margin: 16px 0 8px 0; }\n';
+    excelHtml += '  .risk-high { color: #ef4444; font-weight: bold; }\n';
+    excelHtml += '  td { vertical-align: top; }\n';
+    excelHtml += '</style>\n</head><body>\n';
+
+    // 标题行
+    excelHtml += '<div class="sheet-title">考研全程规划报告 — ' + studentName + ' — 生成于 ' + genDate + '</div>\n';
+
+    for (var si = 0; si < sheets.length; si++) {
+      var panel = document.getElementById(sheets[si].panel);
+      if (!panel) continue;
+
+      excelHtml += '<br><div class="sheet-title">' + (si + 1) + '. ' + sheets[si].title + '</div>\n';
+
+      // 找到该面板中所有表格
+      var tables = panel.querySelectorAll('table');
+      // 也找 .card 中的 h2、h3 标题
+      var cards = panel.querySelectorAll('.card');
+
+      for (var ci = 0; ci < cards.length; ci++) {
+        var card = cards[ci];
+        var h2 = card.querySelector('h2');
+        if (h2 && tables.length > 1) {
+          excelHtml += '<div style="font-weight:bold;font-size:12pt;margin-top:10px;color:#334155;">' + escapeHtmlExcel(h2.textContent.trim()) + '</div>\n';
+        }
+        var cardTables = card.querySelectorAll('table');
+        for (var ti = 0; ti < cardTables.length; ti++) {
+          excelHtml += cardTables[ti].outerHTML + '\n<br>\n';
+        }
+        // 也导出卡片中的列表
+        var lists = card.querySelectorAll('ul');
+        for (var li = 0; li < lists.length; li++) {
+          excelHtml += '<table><tr><th>要点</th></tr>\n';
+          var items = lists[li].querySelectorAll('li');
+          for (var it = 0; it < items.length; it++) {
+            excelHtml += '<tr><td>' + escapeHtmlExcel(items[it].textContent.trim()) + '</td></tr>\n';
+          }
+          excelHtml += '</table>\n<br>\n';
+        }
+      }
+
+      // 如果卡片中没找到表格，直接用面板下的所有表格
+      if (cards.length === 0 && tables.length > 0) {
+        for (var ti2 = 0; ti2 < tables.length; ti2++) {
+          excelHtml += tables[ti2].outerHTML + '\n<br>\n';
+        }
+      }
+    }
+
+    excelHtml += '<br><div style="color:#94a3b8;font-size:9pt;">报告由 考研规划指导 (kaoyan-guide) 自动生成 | 数据仅供参考，请以官方为准</div>\n';
+    excelHtml += '</body></html>';
+
+    // 下载为 .xls（Excel 能原生打开 HTML 格式）
+    var blob = new Blob(['﻿' + excelHtml], {type: 'application/vnd.ms-excel;charset=utf-8'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '考研报告_' + studentName + '.xls';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function escapeHtmlExcel(str) {
+    return (str || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+});
+
+</script>
+</body>
+</html>

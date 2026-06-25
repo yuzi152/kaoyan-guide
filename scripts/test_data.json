@@ -1,0 +1,151 @@
+{
+  "student": {
+    "name": "张三",
+    "undergrad_school": "福建农林大学",
+    "undergrad_major": "软件工程",
+    "target_school": "厦门大学",
+    "target_major": "计算机专硕",
+    "target_total_score": 355,
+    "english_level": "CET-4 520",
+    "math_level": "期末80+",
+    "daily_hours": "6-8小时",
+    "is_cross_major": false,
+    "is_working": false,
+    "accept_retry": false,
+    "exam_date": "2026-12-20"
+  },
+  "assessment": {
+    "probability": 55,
+    "weighted_score": 3.2,
+    "level": "中等偏上",
+    "strengths": ["本专业报考", "有竞赛经历", "时间充裕"],
+    "weaknesses": ["本科双非", "数学基础中等", "目标院校竞争激烈"],
+    "radar_dimensions": [
+      {"label": "学校层次", "score": 3, "max": 5},
+      {"label": "专业匹配", "score": 4, "max": 5},
+      {"label": "英语水平", "score": 3, "max": 5},
+      {"label": "数学基础", "score": 3, "max": 5},
+      {"label": "目标难度", "score": 2, "max": 5},
+      {"label": "可用时间", "score": 3, "max": 5}
+    ]
+  },
+  "subjects": {
+    "数二": {"progress_pct": 35, "target_score": 115},
+    "408专业课": {"progress_pct": 30, "target_score": 115},
+    "政治": {"progress_pct": 0, "target_score": 70},
+    "英语二": {"progress_pct": 50, "target_score": 72}
+  },
+  "school_selection": {
+    "sprint": [
+      {"name": "厦门大学", "level": "985", "major": "计算机专硕",
+       "cutoff": "340-355", "ratio": "~1:1.5", "probability": "30%-50%",
+       "note": "目标院校，需努力"}
+    ],
+    "stable": [
+      {"name": "福州大学", "level": "211", "major": "计算机专硕",
+       "cutoff": "310-325", "ratio": "~1:1.3", "probability": "50%-70%",
+       "note": "✅ 推荐，省内211，408统考"}
+    ],
+    "safety": [
+      {"name": "福建师范大学", "level": "双非", "major": "计算机专硕",
+       "cutoff": "国家线附近", "ratio": "~1:1.2", "probability": "80%+",
+       "note": "保底选择"}
+    ],
+    "risk_notes": ["厦大计算机近年热度上升，分数线可能继续上涨", "以上分数线为估算值，请以研招网官方数据为准"]
+  },
+  "study_plan": {
+    "phases": [
+      {
+        "phase_name": "阶段一：基础阶段",
+        "period": "4月-6月",
+        "subjects": [
+          {"name": "数二", "task": "高数+线代一轮，跟武忠祥/张宇基础课", "material": "张宇基础30讲/武忠祥基础课+教材", "daily_hours": "3h", "completion_criteria": "课后基础题正确率70%+"},
+          {"name": "408专业课", "task": "四科教材通读+王道知识点第一遍", "material": "王道408全套+官方教材", "daily_hours": "2.5h", "completion_criteria": "能画出各章节思维导图"},
+          {"name": "英语二", "task": "考研核心词汇第一轮+长难句基础", "material": "墨墨背单词APP+田静长难句", "daily_hours": "1.5h", "completion_criteria": "核心词汇认读率80%+"},
+          {"name": "政治", "task": "暂不开始（7月启动）", "material": "—", "daily_hours": "0h", "completion_criteria": "—"}
+        ]
+      },
+      {
+        "phase_name": "阶段二：强化阶段",
+        "period": "7月-9月",
+        "subjects": [
+          {"name": "数二", "task": "李林880题+近10年真题分类刷", "material": "李林880题+真题分类", "daily_hours": "3h", "completion_criteria": "习题集完成率80%+，正确率60%+"},
+          {"name": "408专业课", "task": "真题按科目刷第一遍+错题整理", "material": "王道真题详解", "daily_hours": "3h", "completion_criteria": "近10年真题完成第一遍"},
+          {"name": "英语二", "task": "每天2篇真题阅读+翻译练习", "material": "考研真相/黄皮书真题", "daily_hours": "1.5h", "completion_criteria": "阅读正确率稳定65%+"},
+          {"name": "政治", "task": "徐涛强化课+肖1000题第一遍", "material": "徐涛强化课+肖秀荣1000题", "daily_hours": "1.5h", "completion_criteria": "1000题完成率100%，错题已标记"}
+        ]
+      },
+      {
+        "phase_name": "阶段三：冲刺阶段",
+        "period": "10月-12月",
+        "subjects": [
+          {"name": "数二", "task": "近5年真题精刷+李林6+4套卷模拟", "material": "真题+李林模拟卷", "daily_hours": "3h", "completion_criteria": "模考平均分达到目标分数"},
+          {"name": "408专业课", "task": "真题按年份限时模拟+高频考点背诵", "material": "真题+错题本", "daily_hours": "3h", "completion_criteria": "看到题目3秒锁定知识模块"},
+          {"name": "英语二", "task": "整套模拟+作文模板整理背诵", "material": "真题+作文模板", "daily_hours": "1.5h", "completion_criteria": "大作文30分钟内完成"},
+          {"name": "政治", "task": "肖八+肖四选择题+分析题背诵", "material": "肖秀荣8套卷+4套卷+时政", "daily_hours": "2-3h", "completion_criteria": "肖四分析题框架能默写"}
+        ]
+      }
+    ],
+    "months": [
+      {"month": "4月", "title": "基础阶段启动", "detail": "数学高数上册+英语核心词汇第一轮+408数据结构入门"},
+      {"month": "7月", "title": "强化阶段启动", "detail": "数学880题+英语阅读训练+政治徐涛强化课+408真题按科目刷"},
+      {"month": "10月", "title": "冲刺阶段启动", "detail": "全科模拟考+政治肖1000题二刷+报名确认+408真题整卷模拟"},
+      {"month": "12月", "title": "考前冲刺", "detail": "肖四背诵+各科错题回顾+调整作息+考前踩点"}
+    ]
+  },
+  "daily_schedule": {
+    "slots": [
+      {"time": "08:00-08:30", "task": "晨读（英语单词）", "type": "输入型", "intensity": "低"},
+      {"time": "08:30-11:30", "task": "数二 🔴", "type": "逻辑型", "intensity": "高"},
+      {"time": "11:30-12:00", "task": "政治/英语过渡", "type": "输入型", "intensity": "低"},
+      {"time": "12:00-13:30", "task": "午餐+午休", "type": "休息", "intensity": "低"},
+      {"time": "13:30-16:30", "task": "408专业课 🔴", "type": "记忆+逻辑", "intensity": "高"},
+      {"time": "16:30-18:00", "task": "英语阅读+运动/晚餐", "type": "输入型", "intensity": "中"},
+      {"time": "18:00-20:30", "task": "薄弱科补强/政治", "type": "灵活", "intensity": "中"},
+      {"time": "20:30-21:30", "task": "错题回顾+复盘日记", "type": "规划", "intensity": "低"},
+      {"time": "23:00", "task": "熄灯睡觉", "type": "休息", "intensity": "低"}
+    ],
+    "minimum_tasks": [
+      {"subject": "数二", "amount": "20道选择填空题", "time": "40分钟"},
+      {"subject": "408专业课", "amount": "1套选择题(40题)", "time": "50分钟"},
+      {"subject": "政治", "amount": "50道选择题", "time": "30分钟"},
+      {"subject": "英语二", "amount": "2篇真题阅读", "time": "40分钟"}
+    ]
+  },
+  "weekly_milestones": [
+    {"week": "第1周", "math": "近5年真题选择填空", "cs408": "2015-2017真题按科目", "politics": "肖八选择题1刷", "english": "2018-2020阅读真题"},
+    {"week": "第2周", "math": "近5年真题大题(前3道)", "cs408": "2018-2020真题按科目", "politics": "肖八选择题2刷", "english": "背大作文模板+写2篇"},
+    {"week": "第3周", "math": "李林6套卷前3套", "cs408": "2021-2023真题按年份", "politics": "背肖八大题框架", "english": "2015-2018阅读二刷"},
+    {"week": "第4周", "math": "李林6套卷后3套", "cs408": "2024-2025真题+高频考点", "politics": "肖四选择题+大题第1轮", "english": "整套模拟+模板默写"},
+    {"week": "第5周", "math": "错题本总复习", "cs408": "错题+高频考点冲刺", "politics": "肖四大题2刷+时政", "english": "保持手感+模板实战"},
+    {"week": "第6周", "math": "公式默写+限时训练", "cs408": "核心概念快速过一遍", "politics": "肖四大题3刷", "english": "作文模板最后确认"}
+  ],
+  "mock_exam": {
+    "scores": {"数学": 85, "408专业课": 92, "政治": 60, "英语": 68, "总分": 305},
+    "target_scores": {"数学": 115, "408专业课": 115, "政治": 70, "英语": 72, "总分": 355},
+    "score_analysis": "总分305分，距目标355分差50分。数学和408差距最大，各差30分和23分。政治处于刚起步阶段。",
+    "subject_analysis": [
+      {"subject": "数二（85分）——最大失血点", "points": ["基础阶段有漏洞，极限计算和线代方程组正确率仅60%", "提分空间：85→100-105", "策略：主攻基础题，放弃难题"]},
+      {"subject": "408（92分）", "points": ["计组数据通路和OS的PV操作失分最多", "提分空间：92→105-110", "策略：计组+OS专题突破"]}
+    ],
+    "projection": [
+      {"subject": "数二", "current": 85, "expected": 100, "optimistic": 110},
+      {"subject": "408专业课", "current": 92, "expected": 108, "optimistic": 112},
+      {"subject": "政治", "current": 60, "expected": 68, "optimistic": 72},
+      {"subject": "英语二", "current": 68, "expected": 70, "optimistic": 74},
+      {"subject": "总分", "current": 305, "expected": 346, "optimistic": 368}
+    ],
+    "projection_conclusion": "中性预期346分，距厦大355还差9分；最乐观368分可擦线。建议保持目标但需在数学和408上加量，确保中性预期提升至350+。",
+    "plans": [
+      {"label": "A：坚持厦大", "school": "厦门大学", "level": "985", "cutoff": 355, "expected": 346, "gap": "-9", "success_rate": "~35%"},
+      {"label": "B：调整 ✅", "school": "福州大学", "level": "211", "cutoff": 320, "expected": 346, "gap": "+26", "success_rate": "~70%"},
+      {"label": "C：保底", "school": "福建师范大学", "level": "双非", "cutoff": 290, "expected": 346, "gap": "+56", "success_rate": "~90%"}
+    ],
+    "recommendation": "方案B（福州大学）为推荐方案。中性预期超复试线约26分，同省、同408统考，可无缝切换。若坚持厦大需在数学上加每日1小时专项突破。",
+    "mindset_advice": [
+      {"title": "每日10分钟复盘日记", "content": "只写今天完成了什么（数学刷了X题、408过了X章），禁止写后悔/对比。用「已完成」对冲「还不够好」的焦虑。"},
+      {"title": "禁止对比规则", "content": "不看研友的进度，不刷目标院校考研群。每个人的基础和目标不同，比较毫无意义。"}
+    ],
+    "next_eval": "2周后再做完整模考。总分≥330则继续冲厦大，300-330考虑福州大学，<300建议福建师范大学保底。"
+  }
+}
